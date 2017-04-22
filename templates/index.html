@@ -1,15 +1,33 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <meta content="width=devide-width, initial-scale=2" name="viewport"/>
-    <title>Web GPIO</title>
-  </head>
-  <body>
-    <h1>Web GPIO</h1>
-    <p>{% if on %}Acceso{% else %}Spento{% endif %}</p>
+	<head>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<title>Web GPIO</title>
 
-    <form action="/switch" method="POST">
-      <input type="submit" value="{% if on %}Spegni{% else %}Accendi{% endif %}">
-    </form>
-  </body>
+		<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+		<p>Web GPIO</p>
+		</header>
+
+		{% for state in states %}
+		<div class="line">
+			<div class="line-contents">
+				<p>Pin {{ state.id }}</p>
+
+				<div class="onoffswitch">
+					<input type="checkbox" class="onoffswitch-checkbox" id="onoff-{{ state.id }}" data-id="{{ state.id }}"{% if state.state %} checked{% endif %}>
+					<label class="onoffswitch-label" for="onoff-{{ state.id }}">
+						<span class="onoffswitch-inner"></span>
+						<span class="onoffswitch-switch"></span>
+					</label>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="{{ url_for('static', filename='site.js') }}"></script>
+	</body>
 </html>
